@@ -608,12 +608,12 @@ contract PolygonZkEVM is
         if (currentLastForceBatchSequenced != initLastForceBatchSequenced)
             lastForceBatchSequenced = currentLastForceBatchSequenced;
 
-        // Pay collateral for every non-forced batch submitted
-        matic.safeTransferFrom(
-            msg.sender,
-            address(this),
-            batchFee * nonForcedBatchesSequenced
-        );
+        // // Pay collateral for every non-forced batch submitted
+        // matic.safeTransferFrom(
+        //     msg.sender,
+        //     address(this),
+        //     batchFee * nonForcedBatchesSequenced
+        // );
 
         // Consolidate pending state if possible
         _tryConsolidatePendingState();

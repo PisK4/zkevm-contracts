@@ -5,6 +5,12 @@ import "hardhat-dependency-compiler";
 
 import {HardhatUserConfig} from "hardhat/config";
 
+const {ProxyAgent, setGlobalDispatcher} = require("undici");
+const proxyAgent = new ProxyAgent("http://127.0.0.1:7890");
+// if (!!process.env.PROXYAGENT) {
+setGlobalDispatcher(proxyAgent);
+// }
+
 const DEFAULT_MNEMONIC = "test test test test test test test test test test test junk";
 
 /*
@@ -185,9 +191,7 @@ const config: HardhatUserConfig = {
             },
         },
         sepolia: {
-            url: process.env.SEPOLIA_PROVIDER
-                ? process.env.SEPOLIA_PROVIDER
-                : `https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+            url: process.env.SEPOLIA_PROVIDER ? process.env.SEPOLIA_PROVIDER : `https://1rpc.io/sepolia`,
             accounts: {
                 mnemonic: process.env.MNEMONIC || DEFAULT_MNEMONIC,
                 path: "m/44'/60'/0'/0",

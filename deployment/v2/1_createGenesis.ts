@@ -91,6 +91,7 @@ async function main() {
     // Check if it's mainnet deployment
     const isMainnet = deployParameters["isMainnet"] === true ? true : false;
 
+    console.log("isMainnet", isMainnet);
     if (isMainnet === true) {
         timelockAdminAddress = mainnetMultisig;
         minDelayTimelock = mainnetMinDelayTimelock;
@@ -118,6 +119,7 @@ async function main() {
             if (deployParameters[parameterName] === undefined || deployParameters[parameterName] === "") {
                 throw new Error(`Missing parameter: ${parameterName}`);
             }
+            console.log(`${parameterName}: ${deployParameters[parameterName]}`);
         }
         ({timelockAdminAddress, minDelayTimelock, salt, initialZkEVMDeployerOwner} = deployParameters);
     }
@@ -417,7 +419,7 @@ async function main() {
     const deployerInfo = await getAddressInfo(deployer.address);
     genesis.push({
         accountName: "deployer",
-        balance: "0",
+        balance: ethers.parseEther("100000000"),
         nonce: deployerInfo.nonce.toString(),
         address: finalDeployer,
     });

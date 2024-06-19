@@ -132,6 +132,8 @@ async function main() {
         [deployer] = await ethers.getSigners();
     }
 
+    console.log("deployer: ", deployer.address);
+
     // Load Rollup manager
     const PolgonRollupManagerFactory = await ethers.getContractFactory("PolygonRollupManager", deployer);
     const rollupManagerContract = PolgonRollupManagerFactory.attach(
