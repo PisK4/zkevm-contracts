@@ -10,10 +10,12 @@ import "./lib/GlobalExitRootLib.sol";
  */
 contract PolygonZkEVMGlobalExitRoot is IPolygonZkEVMGlobalExitRoot {
     // PolygonZkEVMBridge address
-    address public immutable bridgeAddress;
+    address public immutable bridgeAddress =
+        0x0000000000000000000000000000000000000000;
 
     // Rollup contract address
-    address public immutable rollupAddress;
+    address public immutable rollupAddress =
+        0x0000000000000000000000000000000000000000;
 
     // Rollup exit root, this will be updated every time a batch is verified
     bytes32 public lastRollupExitRoot;
@@ -32,14 +34,14 @@ contract PolygonZkEVMGlobalExitRoot is IPolygonZkEVMGlobalExitRoot {
         bytes32 indexed rollupExitRoot
     );
 
-    /**
-     * @param _rollupAddress Rollup contract address
-     * @param _bridgeAddress PolygonZkEVMBridge contract address
-     */
-    constructor(address _rollupAddress, address _bridgeAddress) {
-        rollupAddress = _rollupAddress;
-        bridgeAddress = _bridgeAddress;
-    }
+    // /**
+    //  * @param _rollupAddress Rollup contract address
+    //  * @param _bridgeAddress PolygonZkEVMBridge contract address
+    //  */
+    // constructor(address _rollupAddress, address _bridgeAddress) {
+    //     rollupAddress = _rollupAddress;
+    //     bridgeAddress = _bridgeAddress;
+    // }
 
     /**
      * @notice Update the exit root of one of the networks and the global exit root

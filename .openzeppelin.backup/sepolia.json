@@ -1,0 +1,1225 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xbF451fA97479cfbA45810C468C7BcD24865248Cc"
+  },
+  "proxies": [
+    {
+      "address": "0x233013c569e82193b1CaB5b1287c130Ba0c4112f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xe49daca435D3b8607C930Cf63dE6684Ba32655c9",
+      "txHash": "0xdabd3b49af695ee43d1018db0ec987a92b2a56e9d5ac4287e6e1202abcb766b4",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3569004A589286B56C8332090C89f58A5716E062",
+      "txHash": "0xe743e6e86c26d4f777f115613e381c276ad4ee11e9654dc98f24ddbd772f9add",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xCF8C8dD3A6C0aB63CA8CA96b0C8eB2b31E6F0BC3",
+      "txHash": "0x2f30d1ce47b2d8f64b6916da0eab5c57be68d93093679b7341988fd358e42236",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "79801cf42fb30168bed48ec167efe6a64d9c46e15685898f72431bb91455bb0a": {
+      "address": "0xEDDA1C299462A02765A9630f712C7C74a962285a",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "_status",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "ReentrancyGuardUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
+          },
+          {
+            "label": "_branch",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_bytes32)32_storage",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:23"
+          },
+          {
+            "label": "depositCount",
+            "offset": 0,
+            "slot": "83",
+            "type": "t_uint256",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:26"
+          },
+          {
+            "label": "_gap",
+            "offset": 0,
+            "slot": "84",
+            "type": "t_array(t_uint256)10_storage",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:32"
+          },
+          {
+            "label": "_gap",
+            "offset": 0,
+            "slot": "94",
+            "type": "t_array(t_uint256)10_storage",
+            "contract": "EmergencyManager",
+            "src": "contracts/lib/EmergencyManager.sol:23"
+          },
+          {
+            "label": "isEmergencyState",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_bool",
+            "contract": "EmergencyManager",
+            "src": "contracts/lib/EmergencyManager.sol:26"
+          },
+          {
+            "label": "networkID",
+            "offset": 1,
+            "slot": "104",
+            "type": "t_uint32",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:61"
+          },
+          {
+            "label": "globalExitRootManager",
+            "offset": 5,
+            "slot": "104",
+            "type": "t_contract(IBasePolygonZkEVMGlobalExitRoot)1675",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:64"
+          },
+          {
+            "label": "lastUpdatedDepositCount",
+            "offset": 25,
+            "slot": "104",
+            "type": "t_uint32",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:67"
+          },
+          {
+            "label": "claimedBitMap",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:70"
+          },
+          {
+            "label": "tokenInfoToWrappedToken",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_mapping(t_bytes32,t_address)",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:73"
+          },
+          {
+            "label": "wrappedTokenToTokenInfo",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_mapping(t_address,t_struct(TokenInformation)2064_storage)",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:76"
+          },
+          {
+            "label": "polygonRollupManager",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_address",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:80",
+            "renamedFrom": "polygonZkEVMaddress"
+          },
+          {
+            "label": "gasTokenAddress",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_address",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:83"
+          },
+          {
+            "label": "gasTokenNetwork",
+            "offset": 20,
+            "slot": "109",
+            "type": "t_uint32",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:86"
+          },
+          {
+            "label": "gasTokenMetadata",
+            "offset": 0,
+            "slot": "110",
+            "type": "t_bytes_storage",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:89"
+          },
+          {
+            "label": "WETHToken",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_contract(TokenWrapped)2037",
+            "contract": "PolygonZkEVMBridgeV2",
+            "src": "contracts/v2/PolygonZkEVMBridgeV2.sol:92"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_bytes32)32_storage": {
+            "label": "bytes32[32]",
+            "numberOfBytes": "1024"
+          },
+          "t_array(t_uint256)10_storage": {
+            "label": "uint256[10]",
+            "numberOfBytes": "320"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_bytes_storage": {
+            "label": "bytes",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IBasePolygonZkEVMGlobalExitRoot)1675": {
+            "label": "contract IBasePolygonZkEVMGlobalExitRoot",
+            "numberOfBytes": "20"
+          },
+          "t_contract(TokenWrapped)2037": {
+            "label": "contract TokenWrapped",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_struct(TokenInformation)2064_storage)": {
+            "label": "mapping(address => struct PolygonZkEVMBridgeV2.TokenInformation)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_address)": {
+            "label": "mapping(bytes32 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TokenInformation)2064_storage": {
+            "label": "struct PolygonZkEVMBridgeV2.TokenInformation",
+            "members": [
+              {
+                "label": "originNetwork",
+                "type": "t_uint32",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "originTokenAddress",
+                "type": "t_address",
+                "offset": 4,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "544b8d70d742fc4044b21719bbe3e0f8af45e6043ff6a7e96d2dc00911988610": {
+      "address": "0xa07C7aa29366e1536f0d6EE8FE07e3E0b349d75d",
+      "txHash": "0xee53e41325185557f06a5abc15998844336879d7b805a9ed1bb6ec829e4f9125",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "lastRollupExitRoot",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bytes32",
+            "contract": "PolygonZkEVMGlobalExitRootBaseStorage",
+            "src": "contracts/v2/lib/PolygonZkEVMGlobalExitRootBaseStorage.sol:14"
+          },
+          {
+            "label": "lastMainnetExitRoot",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_bytes32",
+            "contract": "PolygonZkEVMGlobalExitRootBaseStorage",
+            "src": "contracts/v2/lib/PolygonZkEVMGlobalExitRootBaseStorage.sol:17"
+          },
+          {
+            "label": "globalExitRootMap",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_bytes32,t_uint256)",
+            "contract": "PolygonZkEVMGlobalExitRootBaseStorage",
+            "src": "contracts/v2/lib/PolygonZkEVMGlobalExitRootBaseStorage.sol:21"
+          },
+          {
+            "label": "_branch",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_array(t_bytes32)32_storage",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:23"
+          },
+          {
+            "label": "depositCount",
+            "offset": 0,
+            "slot": "35",
+            "type": "t_uint256",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:26"
+          },
+          {
+            "label": "_gap",
+            "offset": 0,
+            "slot": "36",
+            "type": "t_array(t_uint256)10_storage",
+            "contract": "DepositContractBase",
+            "src": "contracts/v2/lib/DepositContractBase.sol:32"
+          }
+        ],
+        "types": {
+          "t_array(t_bytes32)32_storage": {
+            "label": "bytes32[32]",
+            "numberOfBytes": "1024"
+          },
+          "t_array(t_uint256)10_storage": {
+            "label": "uint256[10]",
+            "numberOfBytes": "320"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "f290d518b071d81891602646a37daea86d58cbbb68a37575fd8baf851190b735": {
+      "address": "0x1CC3d26cfDef5c3891Cbe16BbF345866C9A40D46",
+      "txHash": "0x224ebc3cc70014c62fcee8a448d0939b68be2c32464e2a07931b7290f41839a0",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_legacyOwner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "PolygonAccessControlUpgradeable",
+            "src": "contracts/v2/lib/PolygonAccessControlUpgradeable.sol:29",
+            "renamedFrom": "_owner"
+          },
+          {
+            "label": "_roles",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_mapping(t_bytes32,t_struct(RoleData)7469_storage)",
+            "contract": "PolygonAccessControlUpgradeable",
+            "src": "contracts/v2/lib/PolygonAccessControlUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "53",
+            "type": "t_array(t_uint256)48_storage",
+            "contract": "PolygonAccessControlUpgradeable",
+            "src": "contracts/v2/lib/PolygonAccessControlUpgradeable.sol:244"
+          },
+          {
+            "label": "_gap",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_uint256)10_storage",
+            "contract": "EmergencyManager",
+            "src": "contracts/lib/EmergencyManager.sol:23"
+          },
+          {
+            "label": "isEmergencyState",
+            "offset": 0,
+            "slot": "111",
+            "type": "t_bool",
+            "contract": "EmergencyManager",
+            "src": "contracts/lib/EmergencyManager.sol:26"
+          },
+          {
+            "label": "_legacyVerifyBatchTimeTarget",
+            "offset": 1,
+            "slot": "111",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:45",
+            "renamedFrom": "verifyBatchTimeTarget"
+          },
+          {
+            "label": "_legacyMultiplierBatchFee",
+            "offset": 9,
+            "slot": "111",
+            "type": "t_uint16",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:49",
+            "renamedFrom": "multiplierBatchFee"
+          },
+          {
+            "label": "_legacyTrustedSequencer",
+            "offset": 11,
+            "slot": "111",
+            "type": "t_address",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:53",
+            "renamedFrom": "trustedSequencer"
+          },
+          {
+            "label": "_legacyBatchFee",
+            "offset": 0,
+            "slot": "112",
+            "type": "t_uint256",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:57",
+            "renamedFrom": "batchFee"
+          },
+          {
+            "label": "_legacyForcedBatches",
+            "offset": 0,
+            "slot": "113",
+            "type": "t_mapping(t_uint64,t_bytes32)",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:64",
+            "renamedFrom": "forcedBatches"
+          },
+          {
+            "label": "_legacySequencedBatches",
+            "offset": 0,
+            "slot": "114",
+            "type": "t_mapping(t_uint64,t_struct(SequencedBatchData)7340_storage)",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:69",
+            "renamedFrom": "sequencedBatches"
+          },
+          {
+            "label": "_legacyLastTimestamp",
+            "offset": 0,
+            "slot": "115",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:73",
+            "renamedFrom": "lastTimestamp"
+          },
+          {
+            "label": "_legacylastBatchSequenced",
+            "offset": 8,
+            "slot": "115",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:77",
+            "renamedFrom": "lastBatchSequenced"
+          },
+          {
+            "label": "_legacyLastForceBatchSequenced",
+            "offset": 16,
+            "slot": "115",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:81",
+            "renamedFrom": "lastForceBatchSequenced"
+          },
+          {
+            "label": "_legacyLastForceBatch",
+            "offset": 24,
+            "slot": "115",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:85",
+            "renamedFrom": "lastForceBatch"
+          },
+          {
+            "label": "_legacyLastVerifiedBatch",
+            "offset": 0,
+            "slot": "116",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:89",
+            "renamedFrom": "lastVerifiedBatch"
+          },
+          {
+            "label": "_legacyTrustedAggregator",
+            "offset": 8,
+            "slot": "116",
+            "type": "t_address",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:93",
+            "renamedFrom": "trustedAggregator"
+          },
+          {
+            "label": "_legacyBatchNumToStateRoot",
+            "offset": 0,
+            "slot": "117",
+            "type": "t_mapping(t_uint64,t_bytes32)",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:98",
+            "renamedFrom": "batchNumToStateRoot"
+          },
+          {
+            "label": "_legacyTrustedSequencerURL",
+            "offset": 0,
+            "slot": "118",
+            "type": "t_string_storage",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:102",
+            "renamedFrom": "trustedSequencerURL"
+          },
+          {
+            "label": "_legacyNetworkName",
+            "offset": 0,
+            "slot": "119",
+            "type": "t_string_storage",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:106",
+            "renamedFrom": "networkName"
+          },
+          {
+            "label": "_legacyPendingStateTransitions",
+            "offset": 0,
+            "slot": "120",
+            "type": "t_mapping(t_uint256,t_struct(PendingState)7350_storage)",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:111",
+            "renamedFrom": "pendingStateTransitions"
+          },
+          {
+            "label": "_legacyLastPendingState",
+            "offset": 0,
+            "slot": "121",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:115",
+            "renamedFrom": "lastPendingState"
+          },
+          {
+            "label": "_legacyLastPendingStateConsolidated",
+            "offset": 8,
+            "slot": "121",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:119",
+            "renamedFrom": "lastPendingStateConsolidated"
+          },
+          {
+            "label": "_legacyPendingStateTimeout",
+            "offset": 16,
+            "slot": "121",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:123",
+            "renamedFrom": "pendingStateTimeout"
+          },
+          {
+            "label": "_legacyTrustedAggregatorTimeout",
+            "offset": 24,
+            "slot": "121",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:128",
+            "renamedFrom": "trustedAggregatorTimeout"
+          },
+          {
+            "label": "_legacyAdmin",
+            "offset": 0,
+            "slot": "122",
+            "type": "t_address",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:132",
+            "renamedFrom": "admin"
+          },
+          {
+            "label": "_legacyPendingAdmin",
+            "offset": 0,
+            "slot": "123",
+            "type": "t_address",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:136",
+            "renamedFrom": "pendingAdmin"
+          },
+          {
+            "label": "_legacyForceBatchTimeout",
+            "offset": 20,
+            "slot": "123",
+            "type": "t_uint64",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:140",
+            "renamedFrom": "forceBatchTimeout"
+          },
+          {
+            "label": "_legacyIsForcedBatchDisallowed",
+            "offset": 28,
+            "slot": "123",
+            "type": "t_bool",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:144",
+            "renamedFrom": "isForcedBatchDisallowed"
+          },
+          {
+            "label": "_legacyVersion",
+            "offset": 0,
+            "slot": "124",
+            "type": "t_uint256",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:148",
+            "renamedFrom": "version"
+          },
+          {
+            "label": "_legacyLastVerifiedBatchBeforeUpgrade",
+            "offset": 0,
+            "slot": "125",
+            "type": "t_uint256",
+            "contract": "LegacyZKEVMStateVariables",
+            "src": "contracts/v2/lib/LegacyZKEVMStateVariables.sol:152",
+            "renamedFrom": "lastVerifiedBatchBeforeUpgrade"
+          },
+          {
+            "label": "rollupTypeCount",
+            "offset": 0,
+            "slot": "126",
+            "type": "t_uint32",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:170"
+          },
+          {
+            "label": "rollupTypeMap",
+            "offset": 0,
+            "slot": "127",
+            "type": "t_mapping(t_uint32,t_struct(RollupType)3613_storage)",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:173"
+          },
+          {
+            "label": "rollupCount",
+            "offset": 0,
+            "slot": "128",
+            "type": "t_uint32",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:176"
+          },
+          {
+            "label": "rollupIDToRollupData",
+            "offset": 0,
+            "slot": "129",
+            "type": "t_mapping(t_uint32,t_struct(RollupData)3655_storage)",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:179"
+          },
+          {
+            "label": "rollupAddressToID",
+            "offset": 0,
+            "slot": "130",
+            "type": "t_mapping(t_address,t_uint32)",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:182"
+          },
+          {
+            "label": "chainIDToRollupID",
+            "offset": 0,
+            "slot": "131",
+            "type": "t_mapping(t_uint64,t_uint32)",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:186"
+          },
+          {
+            "label": "totalSequencedBatches",
+            "offset": 0,
+            "slot": "132",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:189"
+          },
+          {
+            "label": "totalVerifiedBatches",
+            "offset": 8,
+            "slot": "132",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:192"
+          },
+          {
+            "label": "lastAggregationTimestamp",
+            "offset": 16,
+            "slot": "132",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:195"
+          },
+          {
+            "label": "trustedAggregatorTimeout",
+            "offset": 24,
+            "slot": "132",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:199"
+          },
+          {
+            "label": "pendingStateTimeout",
+            "offset": 0,
+            "slot": "133",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:202"
+          },
+          {
+            "label": "verifyBatchTimeTarget",
+            "offset": 8,
+            "slot": "133",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:206"
+          },
+          {
+            "label": "multiplierBatchFee",
+            "offset": 16,
+            "slot": "133",
+            "type": "t_uint16",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:209"
+          },
+          {
+            "label": "_batchFee",
+            "offset": 0,
+            "slot": "134",
+            "type": "t_uint256",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:213"
+          },
+          {
+            "label": "lastDeactivatedEmergencyStateTimestamp",
+            "offset": 0,
+            "slot": "135",
+            "type": "t_uint64",
+            "contract": "PolygonRollupManager",
+            "src": "contracts/v2/PolygonRollupManager.sol:216"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_uint256)10_storage": {
+            "label": "uint256[10]",
+            "numberOfBytes": "320"
+          },
+          "t_array(t_uint256)48_storage": {
+            "label": "uint256[48]",
+            "numberOfBytes": "1536"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_contract(IPolygonRollupBase)6982": {
+            "label": "contract IPolygonRollupBase",
+            "numberOfBytes": "20"
+          },
+          "t_contract(IVerifierRollup)3495": {
+            "label": "contract IVerifierRollup",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint32)": {
+            "label": "mapping(address => uint32)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(RoleData)7469_storage)": {
+            "label": "mapping(bytes32 => struct PolygonAccessControlUpgradeable.RoleData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(PendingState)7350_storage)": {
+            "label": "mapping(uint256 => struct LegacyZKEVMStateVariables.PendingState)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint32,t_struct(RollupData)3655_storage)": {
+            "label": "mapping(uint32 => struct PolygonRollupManager.RollupData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint32,t_struct(RollupType)3613_storage)": {
+            "label": "mapping(uint32 => struct PolygonRollupManager.RollupType)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint64,t_bytes32)": {
+            "label": "mapping(uint64 => bytes32)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint64,t_struct(SequencedBatchData)7340_storage)": {
+            "label": "mapping(uint64 => struct LegacyZKEVMStateVariables.SequencedBatchData)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint64,t_uint32)": {
+            "label": "mapping(uint64 => uint32)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(PendingState)7350_storage": {
+            "label": "struct LegacyZKEVMStateVariables.PendingState",
+            "members": [
+              {
+                "label": "timestamp",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "lastVerifiedBatch",
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "0"
+              },
+              {
+                "label": "exitRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "stateRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(RoleData)7469_storage": {
+            "label": "struct PolygonAccessControlUpgradeable.RoleData",
+            "members": [
+              {
+                "label": "members",
+                "type": "t_mapping(t_address,t_bool)",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "adminRole",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(RollupData)3655_storage": {
+            "label": "struct PolygonRollupManager.RollupData",
+            "members": [
+              {
+                "label": "rollupContract",
+                "type": "t_contract(IPolygonRollupBase)6982",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "chainID",
+                "type": "t_uint64",
+                "offset": 20,
+                "slot": "0"
+              },
+              {
+                "label": "verifier",
+                "type": "t_contract(IVerifierRollup)3495",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "forkID",
+                "type": "t_uint64",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "batchNumToStateRoot",
+                "type": "t_mapping(t_uint64,t_bytes32)",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "sequencedBatches",
+                "type": "t_mapping(t_uint64,t_struct(SequencedBatchData)7340_storage)",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "pendingStateTransitions",
+                "type": "t_mapping(t_uint256,t_struct(PendingState)7350_storage)",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "lastLocalExitRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "5"
+              },
+              {
+                "label": "lastBatchSequenced",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "6"
+              },
+              {
+                "label": "lastVerifiedBatch",
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "6"
+              },
+              {
+                "label": "lastPendingState",
+                "type": "t_uint64",
+                "offset": 16,
+                "slot": "6"
+              },
+              {
+                "label": "lastPendingStateConsolidated",
+                "type": "t_uint64",
+                "offset": 24,
+                "slot": "6"
+              },
+              {
+                "label": "lastVerifiedBatchBeforeUpgrade",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "rollupTypeID",
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "7"
+              },
+              {
+                "label": "rollupCompatibilityID",
+                "type": "t_uint8",
+                "offset": 16,
+                "slot": "7"
+              }
+            ],
+            "numberOfBytes": "256"
+          },
+          "t_struct(RollupType)3613_storage": {
+            "label": "struct PolygonRollupManager.RollupType",
+            "members": [
+              {
+                "label": "consensusImplementation",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "verifier",
+                "type": "t_contract(IVerifierRollup)3495",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "forkID",
+                "type": "t_uint64",
+                "offset": 20,
+                "slot": "1"
+              },
+              {
+                "label": "rollupCompatibilityID",
+                "type": "t_uint8",
+                "offset": 28,
+                "slot": "1"
+              },
+              {
+                "label": "obsolete",
+                "type": "t_bool",
+                "offset": 29,
+                "slot": "1"
+              },
+              {
+                "label": "genesis",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(SequencedBatchData)7340_storage": {
+            "label": "struct LegacyZKEVMStateVariables.SequencedBatchData",
+            "members": [
+              {
+                "label": "accInputHash",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sequencedTimestamp",
+                "type": "t_uint64",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "previousLastBatchSequenced",
+                "type": "t_uint64",
+                "offset": 8,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint16": {
+            "label": "uint16",
+            "numberOfBytes": "2"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint32": {
+            "label": "uint32",
+            "numberOfBytes": "4"
+          },
+          "t_uint64": {
+            "label": "uint64",
+            "numberOfBytes": "8"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "8121de445d553df27af45c6351b2a47e39e14aede298a5e5e1dea303d2542b41": {
+      "address": "0x4aeE00260DAfF9a714bCfAAd1540219f507a408e",
+      "txHash": "0x547df0842c028d53842f00951d8c687c6aa4593de45f95a6341e2509c29e7ce0",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "requiredAmountOfSignatures",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_uint256",
+            "contract": "PolygonDataCommittee",
+            "src": "contracts/v2/consensus/validium/PolygonDataCommittee.sol:38"
+          },
+          {
+            "label": "committeeHash",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_bytes32",
+            "contract": "PolygonDataCommittee",
+            "src": "contracts/v2/consensus/validium/PolygonDataCommittee.sol:41"
+          },
+          {
+            "label": "members",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_array(t_struct(Member)21519_storage)dyn_storage",
+            "contract": "PolygonDataCommittee",
+            "src": "contracts/v2/consensus/validium/PolygonDataCommittee.sol:44"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Member)21519_storage)dyn_storage": {
+            "label": "struct PolygonDataCommittee.Member[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Member)21519_storage": {
+            "label": "struct PolygonDataCommittee.Member",
+            "members": [
+              {
+                "label": "url",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "addr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}

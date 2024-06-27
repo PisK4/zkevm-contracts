@@ -53,14 +53,17 @@ async function main() {
     let deployer;
     if (deployParameters.deployerPvtKey) {
         deployer = new ethers.Wallet(deployParameters.deployerPvtKey, currentProvider);
-    } else if (process.env.MNEMONIC) {
-        deployer = ethers.HDNodeWallet.fromMnemonic(
-            ethers.Mnemonic.fromPhrase(process.env.MNEMONIC),
-            "m/44'/60'/0'/0/0"
-        ).connect(currentProvider);
-    } else {
+    }
+    //  else if (process.env.MNEMONIC) {
+    //     deployer = ethers.HDNodeWallet.fromMnemonic(
+    //         ethers.Mnemonic.fromPhrase(process.env.MNEMONIC),
+    //         "m/44'/60'/0'/0/0"
+    //     ).connect(currentProvider);
+    // }
+    else {
         [deployer] = await ethers.getSigners();
     }
+    console.log("Deployer address: ", deployer.address);
 
     // Load initialZkEVMDeployerOwner
     const {initialZkEVMDeployerOwner} = deployParameters;

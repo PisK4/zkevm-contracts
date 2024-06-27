@@ -21,9 +21,9 @@ const pathOutputJson = path.join(__dirname, "./create_rollup_output.json");
 
 import {
     PolygonRollupManager,
-    PolygonZkEVMV2,
+    // PolygonZkEVMV2,
     PolygonZkEVMBridgeV2,
-    PolygonValidium,
+    // PolygonValidium,
     PolygonValidiumEtrog,
 } from "../../typechain-types";
 
@@ -123,12 +123,14 @@ async function main() {
     let deployer;
     if (createRollupParameters.deployerPvtKey) {
         deployer = new ethers.Wallet(createRollupParameters.deployerPvtKey, currentProvider);
-    } else if (process.env.MNEMONIC) {
-        deployer = ethers.HDNodeWallet.fromMnemonic(
-            ethers.Mnemonic.fromPhrase(process.env.MNEMONIC),
-            "m/44'/60'/0'/0/0"
-        ).connect(currentProvider);
-    } else {
+    }
+    // else if (process.env.MNEMONIC) {
+    //     deployer = ethers.HDNodeWallet.fromMnemonic(
+    //         ethers.Mnemonic.fromPhrase(process.env.MNEMONIC),
+    //         "m/44'/60'/0'/0/0"
+    //     ).connect(currentProvider);
+    // }
+    else {
         [deployer] = await ethers.getSigners();
     }
 
@@ -282,15 +284,16 @@ async function main() {
         await polygonDataCommittee?.waitForDeployment();
 
         // Load data commitee
-        const PolygonValidiumContract = (await PolygonconsensusFactory.attach(newZKEVMAddress)) as PolygonValidium;
+        const PolygonValidiumContract = await PolygonconsensusFactory.attach(newZKEVMAddress);
         // add data commitee to the consensus contract
         if ((await PolygonValidiumContract.admin()) == deployer.address) {
             await (
                 await PolygonValidiumContract.setDataAvailabilityProtocol(polygonDataCommittee?.target as any)
             ).wait();
 
-            // // Setup data commitee to 0
-            // await (await polygonDataCommittee?.setupCommittee(0, [], "0x")).wait();
+            // Setup data commitee to 0
+            await (await polygonDataCommittee?.setupCommittee(0, [], "0x")).wait();
+            console.log("Setup data commitee to 0");
         } else {
             await (await polygonDataCommittee?.transferOwnership(adminZkEVM)).wait();
         }
@@ -316,7 +319,7 @@ async function main() {
     }
 
     // Add the first batch of the created rollup
-    const newZKEVMContract = (await PolygonconsensusFactory.attach(newZKEVMAddress)) as PolygonZkEVMV2;
+    const newZKEVMContract = await PolygonconsensusFactory.attach(newZKEVMAddress);
     const batchData = {
         transactions: await newZKEVMContract.generateInitializeTransaction(
             rollupID,
