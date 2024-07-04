@@ -39,6 +39,10 @@ async function main() {
         throw new Error("Only executor can execute the upgrade");
     }
 
+    const id = "0xca37e154607067b95c482ecdef8cbb37cbae50704cf96b9385cd59938a741138";
+    const timestampOnTimeLock = await CDKValidiumTimelock.getTimestamp(id);
+    console.log("timestamp on timelock:", timestampOnTimeLock);
+
     const currentTime = (await ethers.provider.getBlock("latest"))!.timestamp;
     console.log("current time:", currentTime);
 
@@ -53,7 +57,10 @@ async function main() {
 }
 
 export function fetchTimeLockUpgradeParams() {
-    const pathUpgradeParams = path.join(__dirname, "./upgrade_output.json");
+    let pathUpgradeParams = path.join(__dirname, "./upgrade_output.json");
+    if (!!process.env.UPGRADE_L2) {
+        pathUpgradeParams = path.join(__dirname, "./upgrade_outputL2.json");
+    }
     return JSON.parse(fs.readFileSync(pathUpgradeParams, "utf-8"));
 }
 

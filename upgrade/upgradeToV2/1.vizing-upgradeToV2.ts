@@ -34,10 +34,7 @@ const resetFork = async (block: number = parseInt(process.env.HARDHAT_FORK_NUMBE
 async function main() {
     upgrades.silenceWarnings();
 
-    if (hre.network.name !== "hardhat") {
-        console.log(`reset hardhat network`);
-        await resetFork();
-    }
+    console.log(`current block: ${await ethers.provider.getBlockNumber()}`);
 
     /*
      * Check upgrade parameters
@@ -75,6 +72,12 @@ async function main() {
     const currentGlobalExitRootAddress = deployOutputParameters.polygonZkEVMGlobalExitRootAddress;
     const currentPolygonZkEVMAddress = deployOutputParameters.cdkValidiumAddress;
     const currentTimelockAddress = deployOutputParameters.timelockContractAddress;
+    console.log(
+        {currentBridgeAddress},
+        {currentGlobalExitRootAddress},
+        {currentPolygonZkEVMAddress},
+        {currentTimelockAddress}
+    );
 
     // Load onchain parameters
     // const polygonZkEVMFactory = await ethers.getContractFactory("PolygonZkEVM");
@@ -124,8 +127,15 @@ async function main() {
         proxyAdminAddress
     );
 
+    console.log("proxyAdmin: ", proxyAdmin.target);
+
     // Assert correct admin
-    // expect(await upgrades.erc1967.getAdminAddress(currentPolygonZkEVMAddress as string)).to.be.equal(proxyAdmin.target);
+    expect(deployOutputParameters.proxyAdminAddress).to.be.equal(proxyAdmin.target);
+
+    expect(await proxyAdmin.getProxyAdmin(currentPolygonZkEVMAddress)).to.be.equal(proxyAdmin.target);
+    expect(await proxyAdmin.getProxyAdmin(currentBridgeAddress)).to.be.equal(proxyAdmin.target);
+    expect(await proxyAdmin.getProxyAdmin(currentGlobalExitRootAddress)).to.be.equal(proxyAdmin.target);
+    expect(await proxyAdmin.owner()).to.be.equal(deployOutputParameters.timelockContractAddress);
 
     // deploy new verifier
     let verifierContract;
@@ -308,35 +318,118 @@ async function main() {
         salt // salt
     );
 
-    // Schedule operation
-    const scheduleData = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
-        [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
-        [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
-        [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
-        ethers.ZeroHash, // predecesoor
-        salt, // salt
-        timelockDelay,
-    ]);
+    let outputJson;
 
-    // Execute operation
-    const executeData = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
-        [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
-        [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
-        [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
-        ethers.ZeroHash, // predecesoor
-        salt, // salt
-    ]);
+    if (process.env.EXECUTE_SEPARATE || false) {
+        // Schedule operation
+        const scheduleDataGlobalExitRoot = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
+            [operationGlobalExitRoot.target],
+            [operationGlobalExitRoot.value],
+            [operationGlobalExitRoot.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+            timelockDelay,
+        ]);
 
-    // console.log({scheduleData});
-    // console.log({executeData});
+        // Schedule operation
+        const scheduleDataBridge = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
+            [operationBridge.target],
+            [operationBridge.value],
+            [operationBridge.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+            timelockDelay,
+        ]);
 
-    const outputJson = {
-        scheduleData,
-        executeData,
-        verifierAddress: verifierContract.target,
-        newPolygonZKEVM: newPolygonZkEVMContract.target,
-        timelockContractAddress: currentTimelockAddress,
-    };
+        // Schedule operation
+        const scheduleDataRollupManager = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
+            [operationRollupManager.target],
+            [operationRollupManager.value],
+            [operationRollupManager.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+            timelockDelay,
+        ]);
+
+        // Execute operation
+        const executeDataGlobalExitRoot = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
+            [operationGlobalExitRoot.target],
+            [operationGlobalExitRoot.value],
+            [operationGlobalExitRoot.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+        ]);
+
+        // Execute operation
+        const executeDataBridge = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
+            [operationBridge.target],
+            [operationBridge.value],
+            [operationBridge.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+        ]);
+
+        // Execute operation
+        const executeDataRollupManager = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
+            [operationRollupManager.target],
+            [operationRollupManager.value],
+            [operationRollupManager.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+        ]);
+
+        outputJson = {
+            GlobalExitRoot: {
+                id: operationGlobalExitRoot.id,
+                scheduleData: scheduleDataGlobalExitRoot,
+                executeData: executeDataGlobalExitRoot,
+            },
+            Bridge: {
+                id: operationBridge.id,
+                scheduleData: scheduleDataBridge,
+                executeData: executeDataBridge,
+            },
+            RollupManager: {
+                id: operationRollupManager.id,
+                scheduleData: scheduleDataRollupManager,
+                executeData: executeDataRollupManager,
+            },
+            verifierAddress: verifierContract.target,
+            newPolygonZKEVM: newPolygonZkEVMContract.target,
+            timelockContractAddress: currentTimelockAddress,
+        };
+    } else {
+        // Schedule operation
+        const scheduleData = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
+            [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
+            [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
+            [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+            timelockDelay,
+        ]);
+
+        // Execute operation
+        const executeData = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
+            [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
+            [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
+            [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
+            ethers.ZeroHash, // predecesoor
+            salt, // salt
+        ]);
+
+        // console.log({scheduleData});
+        // console.log({executeData});
+
+        outputJson = {
+            scheduleData,
+            executeData,
+            verifierAddress: verifierContract.target,
+            newPolygonZKEVM: newPolygonZkEVMContract.target,
+            timelockContractAddress: currentTimelockAddress,
+        };
+    }
+
     fs.writeFileSync(pathOutputJson, JSON.stringify(outputJson, null, 1));
     console.log("done! check upgrade_output.json");
 }

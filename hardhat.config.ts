@@ -237,6 +237,10 @@ const config: HardhatUserConfig = {
                 count: 20,
             },
         },
+        vizing_devnet: {
+            url: process.env.VIZING_DEVNET,
+            accounts: [`${process.env.DEPLOYER_PRIVATE_KEY}`],
+          },
         zkevmDevnet: {
             url: "http://123:123:123:123:123",
             accounts: {

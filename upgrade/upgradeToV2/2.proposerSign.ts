@@ -54,7 +54,10 @@ async function main() {
 }
 
 export function fetchTimeLockUpgradeParams() {
-    const pathUpgradeParams = path.join(__dirname, "./upgrade_output.json");
+    let pathUpgradeParams = path.join(__dirname, "./upgrade_output.json");
+    if (process.env.UPGRADE_L2 !== undefined) {
+        pathUpgradeParams = path.join(__dirname, "./upgrade_outputL2.json");
+    }
     return JSON.parse(fs.readFileSync(pathUpgradeParams, "utf-8"));
 }
 
