@@ -16,6 +16,9 @@ const pathOutputJson = path.join(__dirname, "./upgrade_output.json");
 const deployParameters = require("./deploy_parameters.json");
 const deployOutputParameters = require("./deploy_output.json");
 const upgradeParameters = require("./upgrade_parameters.json");
+const pathGenesis = path.join(__dirname, "./genesis.json");
+const genesis = require("./genesis.json");
+const createRollupParameters = require("./create_rollup_parameters.json");
 
 const resetFork = async (block: number = parseInt(process.env.HARDHAT_FORK_NUMBER!)) => {
     await hre.network.provider.request({
@@ -32,6 +35,16 @@ const resetFork = async (block: number = parseInt(process.env.HARDHAT_FORK_NUMBE
 };
 
 async function main() {
+    // // check if current network is localhost
+    // if (hre.network.name === "localhost") {
+    //     console.log(`reset hardhat network: ${hre.network.name}`);
+    //     await resetFork();
+    // }
+
+    const attemptsDeployProxy = 20;
+    const {trustedSequencerURL, networkName, description, trustedSequencer, adminZkEVM, forkID, consensusContract} =
+        createRollupParameters;
+
     upgrades.silenceWarnings();
 
     console.log(`current block: ${await ethers.provider.getBlockNumber()}`);
@@ -69,6 +82,7 @@ async function main() {
     }
 
     const currentBridgeAddress = deployOutputParameters.polygonZkEVMBridgeAddress;
+    const currentDataCommitteeAddress = deployOutputParameters.cdkDataCommitteeContract;
     const currentGlobalExitRootAddress = deployOutputParameters.polygonZkEVMGlobalExitRootAddress;
     const currentPolygonZkEVMAddress = deployOutputParameters.cdkValidiumAddress;
     const currentTimelockAddress = deployOutputParameters.timelockContractAddress;
@@ -135,6 +149,7 @@ async function main() {
     expect(await proxyAdmin.getProxyAdmin(currentPolygonZkEVMAddress)).to.be.equal(proxyAdmin.target);
     expect(await proxyAdmin.getProxyAdmin(currentBridgeAddress)).to.be.equal(proxyAdmin.target);
     expect(await proxyAdmin.getProxyAdmin(currentGlobalExitRootAddress)).to.be.equal(proxyAdmin.target);
+    expect(await proxyAdmin.getProxyAdmin(currentDataCommitteeAddress)).to.be.equal(proxyAdmin.target);
     expect(await proxyAdmin.owner()).to.be.equal(deployOutputParameters.timelockContractAddress);
 
     // deploy new verifier
@@ -222,11 +237,20 @@ async function main() {
         salt // salt
     );
 
-    // Update current system to rollup manager
-
     // deploy polygon zkEVM impl
-    const PolygonZkEVMV2ExistentFactory = await ethers.getContractFactory("PolygonZkEVMExistentEtrog");
-    const polygonZkEVMEtrogImpl = await PolygonZkEVMV2ExistentFactory.deploy(
+    // const PolygonZkEVMV2ExistentFactory = await ethers.getContractFactory("PolygonZkEVMExistentEtrog");
+    // const polygonZkEVMEtrogImpl = await PolygonZkEVMV2ExistentFactory.deploy(
+    //     currentGlobalExitRootAddress,
+    //     polTokenAddress,
+    //     currentBridgeAddress,
+    //     currentPolygonZkEVMAddress
+    // );
+    // await polygonZkEVMEtrogImpl.waitForDeployment();
+
+    // Create consensus implementation
+    const PolygonconsensusFactory = (await ethers.getContractFactory("PolygonValidiumEtrog", deployer)) as any;
+
+    const polygonZkEVMEtrogImpl = await PolygonconsensusFactory.deploy(
         currentGlobalExitRootAddress,
         polTokenAddress,
         currentBridgeAddress,
@@ -318,6 +342,30 @@ async function main() {
         salt // salt
     );
 
+    // Update current system to rollup manager
+    const OrigDataCommitteeFactory = await ethers.getContractFactory("CDKDataCommittee", deployer);
+    await upgrades.forceImport(currentDataCommitteeAddress, OrigDataCommitteeFactory, {
+        kind: "transparent",
+    });
+
+    const PolygonDataCommitteeContract = (await ethers.getContractFactory("PolygonDataCommittee", deployer)) as any;
+
+    const newDataCommitteeImpl = await upgrades.prepareUpgrade(
+        currentDataCommitteeAddress,
+        PolygonDataCommitteeContract,
+        {
+            unsafeAllow: ["constructor"],
+        }
+    );
+
+    const operation_DataCommittee = genOperation(
+        proxyAdmin.target,
+        0, // value
+        proxyAdmin.interface.encodeFunctionData("upgrade", [currentDataCommitteeAddress, newDataCommitteeImpl]),
+        ethers.ZeroHash, // predecesoor
+        salt // salt
+    );
+
     let outputJson;
 
     if (process.env.EXECUTE_SEPARATE || false) {
@@ -401,9 +449,24 @@ async function main() {
     } else {
         // Schedule operation
         const scheduleData = timelockContractFactory.interface.encodeFunctionData("scheduleBatch", [
-            [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
-            [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
-            [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
+            [
+                operationGlobalExitRoot.target,
+                operationBridge.target,
+                operationRollupManager.target,
+                operation_DataCommittee.target,
+            ],
+            [
+                operationGlobalExitRoot.value,
+                operationBridge.value,
+                operationRollupManager.value,
+                operation_DataCommittee.value,
+            ],
+            [
+                operationGlobalExitRoot.data,
+                operationBridge.data,
+                operationRollupManager.data,
+                operation_DataCommittee.data,
+            ],
             ethers.ZeroHash, // predecesoor
             salt, // salt
             timelockDelay,
@@ -411,9 +474,24 @@ async function main() {
 
         // Execute operation
         const executeData = timelockContractFactory.interface.encodeFunctionData("executeBatch", [
-            [operationGlobalExitRoot.target, operationBridge.target, operationRollupManager.target],
-            [operationGlobalExitRoot.value, operationBridge.value, operationRollupManager.value],
-            [operationGlobalExitRoot.data, operationBridge.data, operationRollupManager.data],
+            [
+                operationGlobalExitRoot.target,
+                operationBridge.target,
+                operationRollupManager.target,
+                operation_DataCommittee.target,
+            ],
+            [
+                operationGlobalExitRoot.value,
+                operationBridge.value,
+                operationRollupManager.value,
+                operation_DataCommittee.value,
+            ],
+            [
+                operationGlobalExitRoot.data,
+                operationBridge.data,
+                operationRollupManager.data,
+                operation_DataCommittee.data,
+            ],
             ethers.ZeroHash, // predecesoor
             salt, // salt
         ]);
@@ -426,6 +504,7 @@ async function main() {
             executeData,
             verifierAddress: verifierContract.target,
             newPolygonZKEVM: newPolygonZkEVMContract.target,
+            // polygonDataCommittee: PolygonDataCommitteeContract.target,
             timelockContractAddress: currentTimelockAddress,
         };
     }

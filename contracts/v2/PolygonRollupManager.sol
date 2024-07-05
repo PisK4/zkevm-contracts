@@ -443,41 +443,47 @@ contract PolygonRollupManager is
         }
 
         // Initialize current zkEVM
-        RollupData storage currentZkEVM = _addExistingRollup(
-            IPolygonRollupBase(polygonZkEVM),
-            zkEVMVerifier,
-            zkEVMForkID,
-            zkEVMChainID,
-            0, // Rollup compatibility ID is 0
-            _legacyLastVerifiedBatch
-        );
+        if (address(polygonZkEVM) != address(0)) {
+            RollupData storage currentZkEVM = _addExistingRollup(
+                IPolygonRollupBase(polygonZkEVM),
+                zkEVMVerifier,
+                zkEVMForkID,
+                zkEVMChainID,
+                0, // Rollup compatibility ID is 0
+                _legacyLastVerifiedBatch
+            );
 
-        // Copy variables from legacy
-        currentZkEVM.batchNumToStateRoot[
-            zkEVMLastVerifiedBatch
-        ] = _legacyBatchNumToStateRoot[zkEVMLastVerifiedBatch];
+            // Copy variables from legacy
+            currentZkEVM.batchNumToStateRoot[
+                zkEVMLastVerifiedBatch
+            ] = _legacyBatchNumToStateRoot[zkEVMLastVerifiedBatch];
 
-        // note previousLastBatchSequenced of the SequencedBatchData will be inconsistent,
-        // since there will not be a previous sequence stored in the sequence mapping.
-        // However since lastVerifiedBatch is equal to the lastBatchSequenced
-        // won't affect in any case
-        currentZkEVM.sequencedBatches[
-            zkEVMLastBatchSequenced
-        ] = _legacySequencedBatches[zkEVMLastBatchSequenced];
+            // note previousLastBatchSequenced of the SequencedBatchData will be inconsistent,
+            // since there will not be a previous sequence stored in the sequence mapping.
+            // However since lastVerifiedBatch is equal to the lastBatchSequenced
+            // won't affect in any case
+            currentZkEVM.sequencedBatches[
+                zkEVMLastBatchSequenced
+            ] = _legacySequencedBatches[zkEVMLastBatchSequenced];
 
-        currentZkEVM.lastBatchSequenced = zkEVMLastBatchSequenced;
-        currentZkEVM.lastVerifiedBatch = zkEVMLastVerifiedBatch;
-        currentZkEVM.lastVerifiedBatchBeforeUpgrade = zkEVMLastVerifiedBatch;
-        // rollupType and rollupCompatibilityID will be both 0
+            currentZkEVM.lastBatchSequenced = zkEVMLastBatchSequenced;
+            currentZkEVM.lastVerifiedBatch = zkEVMLastVerifiedBatch;
+            currentZkEVM
+                .lastVerifiedBatchBeforeUpgrade = zkEVMLastVerifiedBatch;
+            // rollupType and rollupCompatibilityID will be both 0
 
-        // Initialize polygon zkevm
-        polygonZkEVM.initializeUpgrade(
-            _legacyAdmin,
-            _legacyTrustedSequencer,
-            _legacyTrustedSequencerURL,
-            _legacyNetworkName,
-            _legacySequencedBatches[zkEVMLastBatchSequenced].accInputHash
-        );
+            // Initialize polygon zkevm
+            try
+                polygonZkEVM.initializeUpgrade(
+                    _legacyAdmin,
+                    _legacyTrustedSequencer,
+                    _legacyTrustedSequencerURL,
+                    _legacyNetworkName,
+                    _legacySequencedBatches[zkEVMLastBatchSequenced]
+                        .accInputHash
+                )
+            {} catch {}
+        }
     }
 
     ///////////////////////////////////////
@@ -1053,10 +1059,10 @@ contract PolygonRollupManager is
         // Pay POL rewards
         uint64 newVerifiedBatches = finalNewBatch - currentLastVerifiedBatch;
 
-        pol.safeTransfer(
-            beneficiary,
-            calculateRewardPerBatch() * newVerifiedBatches
-        );
+        // pol.safeTransfer(
+        //     beneficiary,
+        //     calculateRewardPerBatch() * newVerifiedBatches
+        // );
 
         // Update aggregation parameters
         totalVerifiedBatches += newVerifiedBatches;
