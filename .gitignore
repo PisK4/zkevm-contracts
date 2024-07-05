@@ -22,3 +22,5 @@ typechain-types/
 create_rollup_parameters.json
 
 docker/deploymentOutput
+.openzeppelin.backup/
+upgrade/upgradeToV2/genesis.json
