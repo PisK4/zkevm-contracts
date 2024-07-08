@@ -181,9 +181,23 @@ async function main() {
     // Prepare Upgrade PolygonZkEVMBridge
     const polygonZkEVMBridgeFactory = await ethers.getContractFactory("PolygonZkEVMBridgeV2", deployer);
 
-    const newBridgeImpl = await upgrades.prepareUpgrade(currentBridgeAddress, polygonZkEVMBridgeFactory, {
-        unsafeAllow: ["constructor"],
-    });
+    let newBridgeImpl;
+    for (let i = 0; i < attemptsDeployProxy; i++) {
+        try {
+            newBridgeImpl = await upgrades.prepareUpgrade(currentBridgeAddress, polygonZkEVMBridgeFactory, {
+                unsafeAllow: ["constructor"],
+            });
+            break;
+        } catch (error: any) {
+            console.log(`attempt ${i}`);
+            console.log("upgrades.deployProxy of polygonZkEVMGlobalExitRoot ", error.message);
+        }
+
+        // reach limits of attempts
+        if (i + 1 === attemptsDeployProxy) {
+            throw new Error("polygonZkEVMGlobalExitRoot contract has not been deployed");
+        }
+    }
 
     console.log("#######################\n");
     console.log(`PolygonZkEVMBridge impl: ${newBridgeImpl}`);
@@ -208,14 +222,29 @@ async function main() {
         kind: "transparent",
     });
 
-    const newGlobalExitRoortImpl = await upgrades.prepareUpgrade(
-        currentGlobalExitRootAddress,
-        polygonGlobalExitRootV2,
-        {
-            constructorArgs: [currentPolygonZkEVMAddress, currentBridgeAddress],
-            unsafeAllow: ["constructor", "state-variable-immutable"],
+    let newGlobalExitRoortImpl;
+
+    for (let i = 0; i < attemptsDeployProxy; i++) {
+        try {
+            newGlobalExitRoortImpl = await upgrades.prepareUpgrade(
+                currentGlobalExitRootAddress,
+                polygonGlobalExitRootV2,
+                {
+                    constructorArgs: [currentPolygonZkEVMAddress, currentBridgeAddress],
+                    unsafeAllow: ["constructor", "state-variable-immutable"],
+                }
+            );
+            break;
+        } catch (error: any) {
+            console.log(`attempt ${i}`);
+            console.log("upgrades.deployProxy of polygonZkEVMGlobalExitRoot ", error.message);
         }
-    );
+
+        // reach limits of attempts
+        if (i + 1 === attemptsDeployProxy) {
+            throw new Error("polygonZkEVMGlobalExitRoot contract has not been deployed");
+        }
+    }
 
     console.log("#######################\n");
     console.log(`polygonGlobalExitRootV2 impl: ${newGlobalExitRoortImpl}`);
@@ -301,10 +330,26 @@ async function main() {
 
     // Upgrade to rollup manager previous polygonZKEVM
     const PolygonRollupManagerFactory = await ethers.getContractFactory("PolygonRollupManager");
-    const implRollupManager = await upgrades.prepareUpgrade(currentPolygonZkEVMAddress, PolygonRollupManagerFactory, {
-        constructorArgs: [currentGlobalExitRootAddress, polTokenAddress, currentBridgeAddress],
-        unsafeAllow: ["constructor", "state-variable-immutable"],
-    });
+
+    let implRollupManager;
+
+    for (let i = 0; i < attemptsDeployProxy; i++) {
+        try {
+            implRollupManager = await upgrades.prepareUpgrade(currentPolygonZkEVMAddress, PolygonRollupManagerFactory, {
+                constructorArgs: [currentGlobalExitRootAddress, polTokenAddress, currentBridgeAddress],
+                unsafeAllow: ["constructor", "state-variable-immutable"],
+            });
+            break;
+        } catch (error: any) {
+            console.log(`attempt ${i}`);
+            console.log("upgrades.deployProxy of polygonZkEVMGlobalExitRoot ", error.message);
+        }
+
+        // reach limits of attempts
+        if (i + 1 === attemptsDeployProxy) {
+            throw new Error("polygonZkEVMGlobalExitRoot contract has not been deployed");
+        }
+    }
 
     console.log("#######################\n");
     console.log(`Polygon rollup manager: ${implRollupManager}`);
@@ -350,13 +395,28 @@ async function main() {
 
     const PolygonDataCommitteeContract = (await ethers.getContractFactory("PolygonDataCommittee", deployer)) as any;
 
-    const newDataCommitteeImpl = await upgrades.prepareUpgrade(
-        currentDataCommitteeAddress,
-        PolygonDataCommitteeContract,
-        {
-            unsafeAllow: ["constructor"],
+    let newDataCommitteeImpl;
+
+    for (let i = 0; i < attemptsDeployProxy; i++) {
+        try {
+            newDataCommitteeImpl = await upgrades.prepareUpgrade(
+                currentDataCommitteeAddress,
+                PolygonDataCommitteeContract,
+                {
+                    unsafeAllow: ["constructor"],
+                }
+            );
+            break;
+        } catch (error: any) {
+            console.log(`attempt ${i}`);
+            console.log("upgrades.deployProxy of polygonZkEVMGlobalExitRoot ", error.message);
         }
-    );
+
+        // reach limits of attempts
+        if (i + 1 === attemptsDeployProxy) {
+            throw new Error("polygonZkEVMGlobalExitRoot contract has not been deployed");
+        }
+    }
 
     const operation_DataCommittee = genOperation(
         proxyAdmin.target,

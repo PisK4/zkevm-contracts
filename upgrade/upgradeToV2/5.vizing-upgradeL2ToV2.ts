@@ -35,7 +35,7 @@ async function main() {
     }
 
     const salt = upgradeParameters.timelockSalt || ethers.ZeroHash;
-    const currentBridgeAddress = "0x501CE1015Db54e8dF94Ee2DbB509cfb8C2ce0Eb4"; //deployOutputParameters.polygonZkEVMBridgeAddress;
+    const currentBridgeAddress = "0xa440B0f050522B64F73014F06Df2962ee297c7C9"; //deployOutputParameters.polygonZkEVMBridgeAddress;
 
     // Load provider
     let currentProvider = ethers.provider;
