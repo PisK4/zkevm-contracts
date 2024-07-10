@@ -473,16 +473,14 @@ contract PolygonRollupManager is
             // rollupType and rollupCompatibilityID will be both 0
 
             // Initialize polygon zkevm
-            try
-                polygonZkEVM.initializeUpgrade(
-                    _legacyAdmin,
-                    _legacyTrustedSequencer,
-                    _legacyTrustedSequencerURL,
-                    _legacyNetworkName,
-                    _legacySequencedBatches[zkEVMLastBatchSequenced]
-                        .accInputHash
-                )
-            {} catch {}
+
+            polygonZkEVM.initializeUpgrade(
+                _legacyAdmin,
+                _legacyTrustedSequencer,
+                _legacyTrustedSequencerURL,
+                _legacyNetworkName,
+                _legacySequencedBatches[zkEVMLastBatchSequenced].accInputHash
+            );
         }
     }
 

@@ -542,22 +542,22 @@ abstract contract PolygonRollupBaseEtrog is
             // substract forced batches
             nonForcedBatchesSequenced -= forcedBatchesSequenced;
 
-            // Transfer pol for every forced batch submitted
-            pol.safeTransfer(
-                address(rollupManager),
-                calculatePolPerForceBatch() * (forcedBatchesSequenced)
-            );
+            // // Transfer pol for every forced batch submitted
+            // pol.safeTransfer(
+            //     address(rollupManager),
+            //     calculatePolPerForceBatch() * (forcedBatchesSequenced)
+            // );
 
             // Store new last force batch sequenced
             lastForceBatchSequenced = currentLastForceBatchSequenced;
         }
 
-        // Pay collateral for every non-forced batch submitted
-        pol.safeTransferFrom(
-            msg.sender,
-            address(rollupManager),
-            rollupManager.getBatchFee() * nonForcedBatchesSequenced
-        );
+        // // Pay collateral for every non-forced batch submitted
+        // pol.safeTransferFrom(
+        //     msg.sender,
+        //     address(rollupManager),
+        //     rollupManager.getBatchFee() * nonForcedBatchesSequenced
+        // );
 
         uint64 currentBatchSequenced = rollupManager.onSequenceBatches(
             uint64(batchesNum),
@@ -622,7 +622,7 @@ abstract contract PolygonRollupBaseEtrog is
         }
 
         // keep the pol fees on this contract until forced it's sequenced
-        pol.safeTransferFrom(msg.sender, address(this), polFee);
+        // pol.safeTransferFrom(msg.sender, address(this), polFee);
 
         // Get globalExitRoot global exit root
         bytes32 lastGlobalExitRoot = globalExitRootManager
@@ -745,11 +745,11 @@ abstract contract PolygonRollupBaseEtrog is
             );
         }
 
-        // Transfer pol for every forced batch submitted
-        pol.safeTransfer(
-            address(rollupManager),
-            calculatePolPerForceBatch() * (batchesNum)
-        );
+        // // Transfer pol for every forced batch submitted
+        // pol.safeTransfer(
+        //     address(rollupManager),
+        //     calculatePolPerForceBatch() * (batchesNum)
+        // );
 
         // Store back the storage variables
         lastAccInputHash = currentAccInputHash;

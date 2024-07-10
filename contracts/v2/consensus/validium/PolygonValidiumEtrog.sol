@@ -208,11 +208,11 @@ contract PolygonValidiumEtrog is PolygonRollupBaseEtrog, IPolygonValidium {
             // substract forced batches
             nonForcedBatchesSequenced -= forcedBatchesSequenced;
 
-            // Transfer pol for every forced batch submitted
-            pol.safeTransfer(
-                address(rollupManager),
-                calculatePolPerForceBatch() * (forcedBatchesSequenced)
-            );
+            // // Transfer pol for every forced batch submitted
+            // pol.safeTransfer(
+            //     address(rollupManager),
+            //     calculatePolPerForceBatch() * (forcedBatchesSequenced)
+            // );
 
             // Store new last force batch sequenced
             lastForceBatchSequenced = currentLastForceBatchSequenced;
@@ -220,11 +220,11 @@ contract PolygonValidiumEtrog is PolygonRollupBaseEtrog, IPolygonValidium {
 
         // Pay collateral for every non-forced batch submitted
         if (nonForcedBatchesSequenced != 0) {
-            pol.safeTransferFrom(
-                msg.sender,
-                address(rollupManager),
-                rollupManager.getBatchFee() * nonForcedBatchesSequenced
-            );
+            // pol.safeTransferFrom(
+            //     msg.sender,
+            //     address(rollupManager),
+            //     rollupManager.getBatchFee() * nonForcedBatchesSequenced
+            // );
 
             // Validate that the data availability protocol accepts the dataAvailabilityMessage
             // note This is a view function, so there's not much risk even if this contract was vulnerable to reentrant attacks

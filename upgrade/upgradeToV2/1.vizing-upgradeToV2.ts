@@ -190,12 +190,12 @@ async function main() {
             break;
         } catch (error: any) {
             console.log(`attempt ${i}`);
-            console.log("upgrades.deployProxy of polygonZkEVMGlobalExitRoot ", error.message);
+            console.log("upgrades.deployProxy of PolygonZkEVMBridgeV2 ", error.message);
         }
 
         // reach limits of attempts
         if (i + 1 === attemptsDeployProxy) {
-            throw new Error("polygonZkEVMGlobalExitRoot contract has not been deployed");
+            throw new Error("PolygonZkEVMBridgeV2 contract has not been deployed");
         }
     }
 
@@ -302,25 +302,25 @@ async function main() {
     ]);
 
     // deploy polygon zkEVM proxy
-    const PolygonTransparentProxy = await ethers.getContractFactory("PolygonTransparentProxy");
-    const newPolygonZkEVMContract = await PolygonTransparentProxy.deploy(
-        polygonZkEVMEtrogImpl.target,
-        currentPolygonZkEVMAddress,
-        "0x"
-    );
-    await newPolygonZkEVMContract.waitForDeployment();
-    console.log("#######################\n");
-    console.log(`new PolygonZkEVM Proxy: ${newPolygonZkEVMContract.target}`);
+    // const PolygonTransparentProxy = await ethers.getContractFactory("PolygonTransparentProxy");
+    // const newPolygonZkEVMContract = await PolygonTransparentProxy.deploy(
+    //     polygonZkEVMEtrogImpl.target,
+    //     currentPolygonZkEVMAddress,
+    //     "0x"
+    // );
+    // await newPolygonZkEVMContract.waitForDeployment();
+    // console.log("#######################\n");
+    // console.log(`new PolygonZkEVM Proxy: ${newPolygonZkEVMContract.target}`);
 
-    console.log("you can verify the new impl address with:");
-    console.log(
-        `npx hardhat verify --constructor-args upgrade/arguments.js ${newPolygonZkEVMContract.target} --network ${process.env.HARDHAT_NETWORK}\n`
-    );
-    console.log("Copy the following constructor arguments on: upgrade/arguments.js \n", [
-        polygonZkEVMEtrogImpl.target,
-        currentPolygonZkEVMAddress,
-        "0x",
-    ]);
+    // console.log("you can verify the new impl address with:");
+    // console.log(
+    //     `npx hardhat verify --constructor-args upgrade/arguments.js ${newPolygonZkEVMContract.target} --network ${process.env.HARDHAT_NETWORK}\n`
+    // );
+    // console.log("Copy the following constructor arguments on: upgrade/arguments.js \n", [
+    //     polygonZkEVMEtrogImpl.target,
+    //     currentPolygonZkEVMAddress,
+    //     "0x",
+    // ]);
 
     // force import cdkValidium
     const OrigcdkValidiumFactory = await ethers.getContractFactory("CDKValidium", deployer);
@@ -377,10 +377,10 @@ async function main() {
                 admin,
                 currentTimelockAddress,
                 emergencyCouncilAddress,
-                newPolygonZkEVMContract.target,
-                verifierContract.target,
-                newForkID,
-                chainID,
+                ethers.ZeroAddress, // unused parameter  // newPolygonZkEVMContract.target,
+                ethers.ZeroAddress, // unused parameter // verifierContract.target,
+                0, // unused parameter // newForkID,
+                0, // unused parameter // chainID,
             ]),
         ]),
         ethers.ZeroHash, // predecesoor
@@ -422,6 +422,22 @@ async function main() {
         proxyAdmin.target,
         0, // value
         proxyAdmin.interface.encodeFunctionData("upgrade", [currentDataCommitteeAddress, newDataCommitteeImpl]),
+        ethers.ZeroHash, // predecesoor
+        salt // salt
+    );
+
+    const rollupCompatibilityID = 0;
+    const operation_AddNewRollupType = genOperation(
+        currentPolygonZkEVMAddress,
+        0, // value
+        PolygonRollupManagerFactory.interface.encodeFunctionData("addNewRollupType", [
+            polygonZkEVMEtrogImpl.target,
+            verifierContract.target,
+            forkID,
+            rollupCompatibilityID,
+            genesis.root,
+            description,
+        ]),
         ethers.ZeroHash, // predecesoor
         salt // salt
     );
@@ -503,7 +519,7 @@ async function main() {
                 executeData: executeDataRollupManager,
             },
             verifierAddress: verifierContract.target,
-            newPolygonZKEVM: newPolygonZkEVMContract.target,
+            newPolygonZKEVMImpl: polygonZkEVMEtrogImpl,
             timelockContractAddress: currentTimelockAddress,
         };
     } else {
@@ -514,18 +530,21 @@ async function main() {
                 operationBridge.target,
                 operationRollupManager.target,
                 operation_DataCommittee.target,
+                operation_AddNewRollupType.target,
             ],
             [
                 operationGlobalExitRoot.value,
                 operationBridge.value,
                 operationRollupManager.value,
                 operation_DataCommittee.value,
+                operation_AddNewRollupType.value,
             ],
             [
                 operationGlobalExitRoot.data,
                 operationBridge.data,
                 operationRollupManager.data,
                 operation_DataCommittee.data,
+                operation_AddNewRollupType.data,
             ],
             ethers.ZeroHash, // predecesoor
             salt, // salt
@@ -539,18 +558,21 @@ async function main() {
                 operationBridge.target,
                 operationRollupManager.target,
                 operation_DataCommittee.target,
+                operation_AddNewRollupType.target,
             ],
             [
                 operationGlobalExitRoot.value,
                 operationBridge.value,
                 operationRollupManager.value,
                 operation_DataCommittee.value,
+                operation_AddNewRollupType.value,
             ],
             [
                 operationGlobalExitRoot.data,
                 operationBridge.data,
                 operationRollupManager.data,
                 operation_DataCommittee.data,
+                operation_AddNewRollupType.data,
             ],
             ethers.ZeroHash, // predecesoor
             salt, // salt
@@ -559,11 +581,16 @@ async function main() {
         // console.log({scheduleData});
         // console.log({executeData});
 
+        const newZKEVMAddress = ethers.getCreateAddress({
+            from: currentPolygonZkEVMAddress as string,
+            nonce: (await currentProvider.getTransactionCount(currentPolygonZkEVMAddress)) + 1,
+        });
+
         outputJson = {
             scheduleData,
             executeData,
             verifierAddress: verifierContract.target,
-            newPolygonZKEVM: newPolygonZkEVMContract.target,
+            newPolygonZKEVMImpl: polygonZkEVMEtrogImpl.target,
             // polygonDataCommittee: PolygonDataCommitteeContract.target,
             timelockContractAddress: currentTimelockAddress,
         };
