@@ -147,15 +147,8 @@ const config: HardhatUserConfig = {
     },
     networks: {
         mainnet: {
-            url: process.env.MAINNET_PROVIDER
-                ? process.env.MAINNET_PROVIDER
-                : `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
-            accounts: {
-                mnemonic: process.env.MNEMONIC || DEFAULT_MNEMONIC,
-                path: "m/44'/60'/0'/0",
-                initialIndex: 0,
-                count: 20,
-            },
+            url: `https://mainnet.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+            accounts: [`${process.env.DEPLOYER_PRIVATE_KEY}`],
         },
         ropsten: {
             url: process.env.ROPSTEN_PROVIDER
@@ -240,7 +233,7 @@ const config: HardhatUserConfig = {
         vizing_devnet: {
             url: process.env.VIZING_DEVNET,
             accounts: [`${process.env.DEPLOYER_PRIVATE_KEY}`],
-          },
+        },
         zkevmDevnet: {
             url: "http://123:123:123:123:123",
             accounts: {
